@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jna Ahmed — UI/UX Designer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f7f9fc;
+      --surface: #ffffff;
+      --surface2: #eef2f8;
+      --blue-dark: #0f2d6b;
+      --blue-mid: #1a4fad;
+      --blue-light: #3b82f6;
+      --blue-pale: #dbeafe;
+      --blue-ultra: #eff6ff;
+      --text: #0f1c2e;
+      --text-mid: #3d526b;
+      --muted: #8a9bb5;
+      --border: rgba(59,130,246,0.15);
+      --shadow: 0 4px 32px rgba(15,45,107,0.08);
+      --shadow-lg: 0 12px 60px rgba(15,45,107,0.14);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 400;
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 0 64px;
+      height: 72px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(247,249,252,0.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--blue-dark);
+      text-decoration: none;
+      letter-spacing: -0.01em;
+    }
+
+    .nav-logo span { color: var(--blue-light); }
+
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      list-style: none;
+      align-items: center;
+    }
+
+    .nav-links a {
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      color: var(--text-mid);
+      text-decoration: none;
+      transition: color 0.25s;
+    }
+
+    .nav-links a:hover { color: var(--blue-light); }
+
+    .nav-cta {
+      padding: 9px 22px;
+      background: var(--blue-mid) !important;
+      color: #fff !important;
+      border-radius: 6px;
+    }
+
+    .nav-cta:hover { background: var(--blue-dark) !important; }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      padding: 120px 64px 80px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -100px; right: -100px;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(59,130,246,0.09) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--blue-ultra);
+      border: 1px solid var(--blue-pale);
+      color: var(--blue-mid);
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 100px;
+      margin-bottom: 24px;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.1s ease forwards;
+    }
+
+    .hero-tag-dot {
+      width: 6px; height: 6px;
+      background: var(--blue-light);
+      border-radius: 50%;
+      animation: blink 2s infinite;
+    }
+
+    .hero-name {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(52px, 6vw, 80px);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      color: var(--blue-dark);
+      margin-bottom: 6px;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.25s ease forwards;
+    }
+
+    .hero-name em {
+      font-style: italic;
+      font-weight: 400;
+      color: var(--blue-light);
+    }
+
+    .hero-subtitle {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(18px, 2.5vw, 26px);
+      font-weight: 400;
+      font-style: italic;
+      color: var(--muted);
+      margin-bottom: 28px;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.4s ease forwards;
+    }
+
+    .hero-desc {
+      font-size: 15px;
+      line-height: 1.85;
+      color: var(--text-mid);
+      max-width: 460px;
+      margin-bottom: 44px;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.55s ease forwards;
+    }
+
+    .hero-btns {
+      display: flex;
+      gap: 14px;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.7s ease forwards;
+    }
+
+    .btn-primary {
+      padding: 14px 30px;
+      background: var(--blue-mid);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      text-decoration: none;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 20px rgba(26,79,173,0.3);
+    }
+
+    .btn-primary:hover {
+      background: var(--blue-dark);
+      box-shadow: 0 6px 28px rgba(15,45,107,0.4);
+      transform: translateY(-1px);
+    }
+
+    .btn-outline {
+      padding: 14px 30px;
+      border: 1.5px solid var(--blue-pale);
+      color: var(--blue-mid);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      text-decoration: none;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      background: transparent;
+    }
+
+    .btn-outline:hover {
+      border-color: var(--blue-light);
+      background: var(--blue-ultra);
+      transform: translateY(-1px);
+    }
+
+    /* HERO IMAGE */
+    .hero-image-side {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      opacity: 0;
+      animation: fadeIn 0.9s 0.5s ease forwards;
+    }
+
+    .hero-img-wrap {
+      position: relative;
+      width: 360px;
+      height: 460px;
+    }
+
+    .hero-img-wrap::before {
+      content: '';
+      position: absolute;
+      top: 20px; right: -20px;
+      width: 100%; height: 100%;
+      background: var(--blue-pale);
+      border-radius: 20px;
+      z-index: 0;
+    }
+
+    .hero-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      border-radius: 16px;
+      position: relative;
+      z-index: 1;
+      box-shadow: var(--shadow-lg);
+      display: block;
+    }
+
+    .hero-badge {
+      position: absolute;
+      bottom: -16px;
+      left: -24px;
+      z-index: 3;
+      background: #fff;
+      border-radius: 12px;
+      padding: 14px 18px;
+      box-shadow: var(--shadow-lg);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid var(--border);
+    }
+
+    .hero-badge-dot {
+      width: 8px; height: 8px;
+      background: #22c55e;
+      border-radius: 50%;
+      animation: blink 2s infinite;
+    }
+
+    .hero-badge-text {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      color: var(--text-mid);
+      letter-spacing: 0.05em;
+    }
+
+    .hero-float-card {
+      position: absolute;
+      top: 30px;
+      right: -32px;
+      z-index: 3;
+      background: var(--blue-dark);
+      border-radius: 12px;
+      padding: 16px 20px;
+      box-shadow: var(--shadow-lg);
+      color: #fff;
+      text-align: center;
+    }
+
+    .hero-float-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1;
+    }
+
+    .hero-float-label {
+      font-size: 10px;
+      color: rgba(255,255,255,0.6);
+      font-family: 'Space Mono', monospace;
+      letter-spacing: 0.08em;
+      margin-top: 4px;
+    }
+
+    /* SECTIONS */
+    section { padding: 100px 64px; }
+
+    .section-label {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 48px;
+    }
+
+    .section-num {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      color: var(--blue-light);
+      letter-spacing: 0.1em;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(32px, 4vw, 48px);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--blue-dark);
+    }
+
+    .section-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ABOUT */
+    .about { background: #fff; }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1.3fr 0.7fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    .about-text p {
+      font-size: 15px;
+      line-height: 1.9;
+      color: var(--text-mid);
+      margin-bottom: 20px;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .stat-card {
+      background: var(--blue-ultra);
+      border: 1px solid var(--blue-pale);
+      border-radius: 14px;
+      padding: 28px 20px;
+      text-align: center;
+    }
+
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 40px;
+      font-weight: 700;
+      color: var(--blue-mid);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .stat-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* PROJECTS */
+    .projects { background: var(--bg); }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .project-card {
+      background: #fff;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+
+    .project-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .project-img-wrap {
+      height: 240px;
+      overflow: hidden;
+      position: relative;
+      background: var(--blue-ultra);
+    }
+
+    .project-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      transition: transform 0.5s ease;
+      display: block;
+    }
+
+    .project-card:hover .project-img-wrap img {
+      transform: scale(1.04);
+    }
+
+    .project-tag {
+      position: absolute;
+      top: 14px; left: 14px;
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--blue-mid);
+      background: rgba(255,255,255,0.95);
+      padding: 5px 11px;
+      border-radius: 100px;
+      border: 1px solid var(--blue-pale);
+    }
+
+    .project-placeholder {
+      height: 240px;
+      background: linear-gradient(135deg, var(--blue-ultra) 0%, var(--blue-pale) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      font-size: 60px;
+    }
+
+    .project-body { padding: 28px; }
+
+    .project-num {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+    }
+
+    .project-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--blue-dark);
+      margin-bottom: 10px;
+    }
+
+    .project-desc {
+      font-size: 13px;
+      line-height: 1.75;
+      color: var(--text-mid);
+      margin-bottom: 20px;
+    }
+
+    .project-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--blue-light);
+      text-decoration: none;
+    }
+
+    .project-link .arrow { transition: transform 0.3s; }
+    .project-card:hover .arrow { transform: translateX(4px); }
+
+    /* SKILLS */
+    .skills-section { background: #fff; }
+
+    .skills-layout {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .skills-group {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+    }
+
+    .skills-group h3 {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--blue-light);
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .skill-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(59,130,246,0.07);
+    }
+
+    .skill-item:last-child { border-bottom: none; }
+
+    .skill-dot {
+      width: 6px; height: 6px;
+      background: var(--blue-light);
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .skill-name {
+      font-size: 13.5px;
+      color: var(--text-mid);
+      font-weight: 500;
+    }
+
+    /* CERTS */
+    .certs-section { background: var(--bg); }
+
+    .certs-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      max-width: 760px;
+    }
+
+    .cert-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 22px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      box-shadow: var(--shadow);
+    }
+
+    .cert-icon {
+      width: 44px; height: 44px;
+      background: var(--blue-ultra);
+      border: 1px solid var(--blue-pale);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+
+    .cert-name {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--blue-dark);
+    }
+
+    /* CONTACT */
+    .contact-section { background: var(--blue-dark); }
+
+    .contact-section .section-title { color: #fff; }
+    .contact-section .section-num { color: #93c5fd; }
+    .contact-section .section-line { background: rgba(255,255,255,0.1); }
+
+    .contact-tagline {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(24px, 3vw, 40px);
+      font-weight: 400;
+      font-style: italic;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.4;
+      margin-bottom: 56px;
+      max-width: 640px;
+    }
+
+    .contact-tagline span { color: #fff; font-style: normal; font-weight: 600; }
+
+    .contact-links {
+      display: flex;
+      flex-direction: column;
+      max-width: 640px;
+    }
+
+    .contact-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      text-decoration: none;
+      color: inherit;
+      transition: padding-left 0.3s;
+    }
+
+    .contact-link:hover { padding-left: 10px; }
+
+    .contact-link-type {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #93c5fd;
+      margin-bottom: 4px;
+    }
+
+    .contact-link-value {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 400;
+      color: rgba(255,255,255,0.85);
+      transition: color 0.3s;
+    }
+
+    .contact-link:hover .contact-link-value { color: #fff; }
+
+    .contact-arrow {
+      font-size: 22px;
+      color: rgba(255,255,255,0.3);
+      transition: color 0.3s, transform 0.3s;
+    }
+
+    .contact-link:hover .contact-arrow {
+      color: #93c5fd;
+      transform: translate(4px, -4px);
+    }
+
+    /* FOOTER */
+    footer {
+      padding: 28px 64px;
+      background: #0a2057;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 16px;
+      color: rgba(255,255,255,0.5);
+    }
+
+    .footer-copy {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      color: rgba(255,255,255,0.3);
+    }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* MOBILE */
+    @media (max-width: 768px) {
+      nav { padding: 0 20px; }
+      .nav-links { display: none; }
+      section { padding: 72px 20px; }
+
+      .hero {
+        grid-template-columns: 1fr;
+        padding: 100px 20px 60px;
+        gap: 48px;
+      }
+
+      .hero-image-side { order: -1; }
+      .hero-img-wrap { width: 100%; max-width: 300px; height: 360px; margin: 0 auto; }
+      .hero-float-card { right: -10px; top: 20px; }
+      .hero-img-wrap::before { display: none; }
+
+      .about-grid { grid-template-columns: 1fr; gap: 40px; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .skills-layout { grid-template-columns: 1fr; }
+      .certs-grid { grid-template-columns: 1fr; }
+      .hero-btns { flex-direction: column; }
+
+      footer { flex-direction: column; gap: 10px; text-align: center; padding: 24px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo">Jna <span>Ahmed</span></a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#projects">Work</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#contact" class="nav-cta">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-content">
+      <div class="hero-tag">
+        <span class="hero-tag-dot"></span>
+        UI/UX Designer
+      </div>
+      <h1 class="hero-name">Jna<br><em>Ahmed</em></h1>
+      <p class="hero-subtitle">Designing digital experiences</p>
+      <p class="hero-desc">
+        I design user-centered digital experiences that simplify complexity and solve real-world problems — focusing on both how things look and how they work.
+      </p>
+      <div class="hero-btns">
+        <a href="#projects" class="btn-primary">View Projects</a>
+        <a href="#contact" class="btn-outline">Contact Me</a>
+      </div>
+    </div>
+
+    <div class="hero-image-side">
+      <div class="hero-img-wrap">
+        <img src="photo.jpg" alt="Jna Ahmed" />
+        <div class="hero-badge">
+          <div class="hero-badge-dot"></div>
+          <span class="hero-badge-text">Open to opportunities</span>
+        </div>
+        <div class="hero-float-card">
+          <div class="hero-float-num">4+</div>
+          <div class="hero-float-label">Yrs. Exp.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about" id="about">
+    <div class="section-label reveal">
+      <span class="section-num">01</span>
+      <h2 class="section-title">About Me</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <p>I'm a UI/UX Designer with around 4 years of experience creating intuitive and visually engaging digital products.</p>
+        <p>I focus on understanding user behavior and transforming complex ideas into simple, usable solutions. My work is not only about how things look, but how they function in real-world scenarios.</p>
+        <p>I have worked on projects that are already live and used by real users, which helped me gain practical experience in designing for real needs, not just concepts.</p>
+      </div>
+      <div class="stats-grid reveal">
+        <div class="stat-card">
+          <div class="stat-num">4+</div>
+          <div class="stat-label">Years Exp.</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">4</div>
+          <div class="stat-label">Projects</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">2</div>
+          <div class="stat-label">Live Products</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">3</div>
+          <div class="stat-label">Tools</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section class="projects" id="projects">
+    <div class="section-label reveal">
+      <span class="section-num">02</span>
+      <h2 class="section-title">Selected Work</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="projects-grid">
+
+      <a href="https://kayan-chi.vercel.app/" target="_blank" class="project-card reveal">
+        <div class="project-img-wrap">
+          <img src="kayan.png" alt="Kayan Platform" />
+          <span class="project-tag">Web Platform</span>
+        </div>
+        <div class="project-body">
+          <div class="project-num">Project — 01</div>
+          <h3 class="project-name">Kayan</h3>
+          <p class="project-desc">A real-world platform designed to support youth initiatives and community engagement, with a focus on clear structure and smooth UX.</p>
+          <span class="project-link">View Live <span class="arrow">→</span></span>
+        </div>
+      </a>
+
+      <a href="https://skygurdians.com/" target="_blank" class="project-card reveal">
+        <div class="project-img-wrap">
+          <img src="sky.png" alt="Sky Guardians" />
+          <span class="project-tag">Education Platform</span>
+        </div>
+        <div class="project-body">
+          <div class="project-num">Project — 02</div>
+          <h3 class="project-name">Sky Guardians</h3>
+          <p class="project-desc">An educational platform offering courses in Web Development, UI/UX, and Programming — designed for simplicity and a smooth learning experience.</p>
+          <span class="project-link">View Live <span class="arrow">→</span></span>
+        </div>
+      </a>
+
+      <div class="project-card reveal">
+        <div class="project-placeholder">
+          <span>💊</span>
+          <span class="project-tag">Mobile App</span>
+        </div>
+        <div class="project-body">
+          <div class="project-num">Project — 03</div>
+          <h3 class="project-name">Medication Reminder</h3>
+          <p class="project-desc">A mobile app helping users — especially elderly people — manage medication schedules easily, with accessibility and clarity as key design principles.</p>
+          <span class="project-link" style="color:var(--muted);cursor:default;">Concept Project</span>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-placeholder">
+          <span>✈️</span>
+          <span class="project-tag">Mobile App</span>
+        </div>
+        <div class="project-body">
+          <div class="project-num">Project — 04</div>
+          <h3 class="project-name">Medical Tourism</h3>
+          <p class="project-desc">A concept project allowing users to explore and book medical trips — structured for easy browsing without overwhelming the user.</p>
+          <span class="project-link" style="color:var(--muted);cursor:default;">Concept Project</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section class="skills-section" id="skills">
+    <div class="section-label reveal">
+      <span class="section-num">03</span>
+      <h2 class="section-title">Skills & Tools</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="skills-layout">
+      <div class="skills-group reveal">
+        <h3>Design Skills</h3>
+        <div class="skill-item"><span class="skill-dot"></span><span class="skill-name">UI/UX Design</span></div>
+        <div class="skill-item"><span class="skill-dot"></span><span class="skill-name">User Research</span></div>
+        <div class="skill-item"><span class="skill-dot"></span><span class="skill-name">Wireframing</span></div>
+        <div class="skill-item"><span class="skill-dot"></span><span class="skill-name">Prototyping</span></div>
+        <div class="skill-item"><span class="skill-dot"></span><span class="skill-name">Design Systems</span></div>
+        <div class="skill-item"><span class="skill-dot"></span><span class="skill-name">Usability Testing</span></div>
+      </div>
+      <div class="skills-group reveal">
+        <h3>Tools</h3>
+        <div class="skill-item"><span class="skill-dot"></span><span class="skill-name">Figma</span></div>
+        <div class="skill-item"><span class="skill-dot"></span><span class="skill-name">Adobe Illustrator</span></div>
+        <div class="skill-item"><span class="skill-dot"></span><span class="skill-name">Adobe XD</span></div>
+      </div>
+      <div class="skills-group reveal">
+        <h3>Languages</h3>
+        <div class="skill-item"><span class="skill-dot"></span><span class="skill-name">Arabic — Native</span></div>
+        <div class="skill-item"><span class="skill-dot"></span><span class="skill-name">English — B1+</span></div>
+        <div class="skill-item"><span class="skill-dot"></span><span class="skill-name">German</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CERTIFICATIONS -->
+  <section class="certs-section" id="certifications">
+    <div class="section-label reveal">
+      <span class="section-num">04</span>
+      <h2 class="section-title">Certifications</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="certs-grid">
+      <div class="cert-card reveal">
+        <div class="cert-icon">🏅</div>
+        <div class="cert-name">Digital Egypt Cubs Initiative (DECI)</div>
+      </div>
+      <div class="cert-card reveal">
+        <div class="cert-icon">🎓</div>
+        <div class="cert-name">Microsoft Courses</div>
+      </div>
+      <div class="cert-card reveal">
+        <div class="cert-icon">🎓</div>
+        <div class="cert-name">Udacity Courses</div>
+      </div>
+      <div class="cert-card reveal">
+        <div class="cert-icon">🏅</div>
+        <div class="cert-name">Rowad Masr El Raqamia</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact-section" id="contact">
+    <div class="section-label reveal">
+      <span class="section-num">05</span>
+      <h2 class="section-title">Get In Touch</h2>
+      <div class="section-line"></div>
+    </div>
+    <p class="contact-tagline reveal">
+      Feel free to reach out for<br>
+      <span>collaborations or opportunities.</span>
+    </p>
+    <div class="contact-links">
+      <a href="mailto:gege1122006@gmail.com" class="contact-link reveal">
+        <div>
+          <div class="contact-link-type">Email</div>
+          <div class="contact-link-value">gege1122006@gmail.com</div>
+        </div>
+        <span class="contact-arrow">↗</span>
+      </a>
+      <a href="https://www.linkedin.com/in/jna-ahmed-1a2595348" target="_blank" class="contact-link reveal">
+        <div>
+          <div class="contact-link-type">LinkedIn</div>
+          <div class="contact-link-value">jna-ahmed</div>
+        </div>
+        <span class="contact-arrow">↗</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <span class="footer-name">Jna Ahmed</span>
+    <span class="footer-copy">© 2025 · All rights reserved</span>
+  </footer>
+
+  <script>
+    const reveals = document.querySelectorAll('.reveal');
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          entry.target.style.transitionDelay = `${(i % 4) * 0.08}s`;
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+    reveals.forEach(el => obs.observe(el));
+  </script>
+</body>
+</html>
